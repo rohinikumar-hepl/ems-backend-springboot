@@ -49,6 +49,12 @@ public class EmployeeController {
         return ResponseEntity.ok("deleted successfully !");
     }
 
+    @PostMapping("/AddListEmp")
+    public ResponseEntity<List<EmployeeDto>> postAllEmployee(@RequestBody List<EmployeeDto> employeeDto){
+        List<EmployeeDto> responseEmployee = employeeService.addManyEmployee(employeeDto);
+        return ResponseEntity.ok(responseEmployee);
+    }
+
 
 
 

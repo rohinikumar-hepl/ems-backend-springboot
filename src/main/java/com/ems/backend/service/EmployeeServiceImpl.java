@@ -8,6 +8,7 @@ import com.ems.backend.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +60,20 @@ public class EmployeeServiceImpl  implements  EmployeeService{
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new RuntimeException("Employee id not found"));
 
         employeeRepository.deleteById(employee.getId());
+    }
+
+    @Override
+    public List<EmployeeDto> addManyEmployee(List<EmployeeDto> listEmployee) {
+        List<Employee> convertEmployee = new ArrayList<>();
+        for(EmployeeDto em:listEmployee){
+            convertEmployee.add(EmployeeMapper.mapToEmployee(em));
+        }
+        List<Employee> storedEmployee  = employeeRepository.saveAll(convertEmployee);
+        List<EmployeeDto> convertEmployeeDto = new ArrayList<>();
+        for(Employee em:storedEmployee){
+            convertEmployeeDto.add(EmployeeMapper.mapToEmployeeDto(em));
+        }
+        return convertEmployeeDto;
     }
 
 
